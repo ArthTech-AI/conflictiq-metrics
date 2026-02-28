@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>conflictiQ Engineering Velocity Report | Feb 2026+</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0F172A;
+            --bg-card: #1E293B;
+            --primary: #6366F1;
+            --accent: #06B6D4;
+            --green: #10B981;
+            --amber: #F59E0B;
+            --red: #EF4444;
+            --pink: #EC4899;
+            --purple: #8B5CF6;
+            --text: #F1F5F9;
+            --text-muted: #CBD5E1;
+            --border: #334155;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 220px;
+            height: 100vh;
+            background: var(--bg-card);
+            border-right: 1px solid var(--border);
+            padding: 2rem 0;
+            overflow-y: auto;
+            z-index: 100;
+            transition: transform 0.3s ease;
+        }
+
+        .sidebar-logo {
+            padding: 0 1.5rem 2rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 1rem;
+        }
+
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin: 0.25rem 0;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .nav-link:hover {
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--text);
+        }
+
+        .nav-link.active {
+            background: rgba(99, 102, 241, 0.2);
+            color: var(--primary);
+            border-left: 3px solid var(--primary);
+        }
+
+        .nav-icon {
+            margin-right: 0.75rem;
+            font-size: 1.1rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 220px;
+            flex: 1;
+            padding: 3rem;
+            max-width: 1400px;
+        }
+
+        .section {
+            padding: 4rem 0;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s ease forwards;
+            scroll-margin-top: 2rem;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: var(--text);
+            font-weight: 700;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 3rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 6rem 0;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-tagline {
+            font-size: 1.2rem;
+            color: var(--accent);
+            margin-bottom: 4rem;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 24px rgba(99, 102, 241, 0.2);
+        }
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .kpi-card {
+            text-align: center;
+            border: 2px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .kpi-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+        }
+
+        .kpi-value {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+
+        .kpi-label {
+            font-size: 1rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Grid Layouts */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* Charts */
+        .chart-container {
+            position: relative;
+            height: 400px;
+            margin-bottom: 2rem;
+        }
+
+        .chart-container.small {
+            height: 300px;
+        }
+
+        .chart-container.large {
+            height: 500px;
+        }
+
+        /* Insight Cards */
+        .insight-card {
+            border-left: 4px solid var(--primary);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .insight-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            color: var(--text);
+        }
+
+        .insight-text {
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        .insight-card.cyan { border-left-color: var(--accent); }
+        .insight-card.green { border-left-color: var(--green); }
+        .insight-card.amber { border-left-color: var(--amber); }
+        .insight-card.pink { border-left-color: var(--pink); }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border);
+            margin-top: 4rem;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: sticky;
+                top: 0;
+                z-index: 100;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 1.5rem;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .grid-2, .grid-3 {
+                grid-template-columns: 1fr;
+            }
+
+            .kpi-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section {
+                padding: 2rem 0;
+            }
+
+            .nav-menu {
+                display: flex;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+
+            .nav-item {
+                flex: 0 0 auto;
+            }
+
+            .nav-link {
+                padding: 0.5rem 1rem;
+            }
+
+            .sidebar-logo {
+                text-align: center;
+            }
+        }
+
+        .callout-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .callout-card {
+            text-align: center;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(6, 182, 212, 0.1));
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .callout-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .callout-label {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .annotation {
+            text-align: center;
+            color: var(--text-muted);
+            font-style: italic;
+            margin-top: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        /* AI Stack stat cards */
+        .stack-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stack-stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1.25rem;
+            text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .stack-stat-card:hover {
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.15);
+        }
+
+        .stack-stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 0.25rem;
+        }
+
+        .stack-stat-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .orch-summary-card {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(99, 102, 241, 0.15));
+            border: 2px solid var(--purple);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--purple);
+            margin: 2rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .stack-stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Live metrics pulse animation */
+        @keyframes metricPulse {
+            0% { text-shadow: 0 0 0 transparent; }
+            30% { text-shadow: 0 0 12px rgba(6, 182, 212, 0.8), 0 0 24px rgba(6, 182, 212, 0.4); }
+            100% { text-shadow: 0 0 0 transparent; }
+        }
+        @keyframes metricFlash {
+            0% { background-color: transparent; }
+            15% { background-color: rgba(6, 182, 212, 0.12); }
+            100% { background-color: transparent; }
+        }
+        .metric-updated {
+            animation: metricPulse 2s ease-out;
+        }
+        .metric-updated-card {
+            animation: metricFlash 2.5s ease-out;
+            border-radius: 12px;
+        }
+        .live-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.7rem;
+            color: var(--accent);
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+        .live-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent);
+            animation: liveBlink 2s ease-in-out infinite;
+        }
+        @keyframes liveBlink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar Navigation -->
+        <nav class="sidebar">
+            <div class="sidebar-logo">conflictiQ</div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#overview" class="nav-link active">
+                        <span class="nav-icon">📊</span>
+                        <span>Overview</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#ai-multiplier" class="nav-link">
+                        <span class="nav-icon">🤖</span>
+                        <span>AI Multiplier</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#ai-stack" class="nav-link">
+                        <span class="nav-icon">🛠️</span>
+                        <span>AI Stack</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#velocity" class="nav-link">
+                        <span class="nav-icon">🚀</span>
+                        <span>Velocity</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#codebase" class="nav-link">
+                        <span class="nav-icon">🏗️</span>
+                        <span>Codebase</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#autonomy" class="nav-link">
+                        <span class="nav-icon">⚡</span>
+                        <span>Autonomy</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#integrations" class="nav-link">
+                        <span class="nav-icon">🔌</span>
+                        <span>Integrations</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#takeaways" class="nav-link">
+                        <span class="nav-icon">💡</span>
+                        <span>Takeaways</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Section 1: Hero / Overview -->
+            <section id="overview" class="section hero">
+                <h1 class="hero-title">conflictiQ</h1>
+                <h2 class="hero-subtitle">Engineering Velocity Report — Feb 2026+</h2>
+                <p class="hero-tagline">AI-Powered Fact-Check Bot for WhatsApp & Telegram</p>
+
+                <div class="kpi-grid">
+                    <div class="card kpi-card">
+                        <div class="kpi-value" id="stat-commits">0</div>
+                        <div class="kpi-label">Commits</div>
+                    </div>
+                    <div class="card kpi-card">
+                        <div class="kpi-value" id="stat-prs">0</div>
+                        <div class="kpi-label">PRs Merged</div>
+                    </div>
+                    <div class="card kpi-card">
+                        <div class="kpi-value" id="stat-lines">0</div>
+                        <div class="kpi-label">Lines Shipped</div>
+                    </div>
+                    <div class="card kpi-card">
+                        <div class="kpi-value" id="stat-ai-pct">0%</div>
+                        <div class="kpi-label">AI Co-Authored</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 2: AI Multiplier Effect -->
+            <section id="ai-multiplier" class="section">
+                <h2 class="section-title">The AI Multiplier Effect</h2>
+                <p class="section-subtitle">Claude Code as the primary development partner</p>
+
+                <div class="grid-2">
+                    <div class="card">
+                        <h3 style="text-align: center; margin-bottom: 2rem; color: var(--text-muted);">Claude Co-Authorship</h3>
+                        <div class="chart-container small">
+                            <canvas id="coAuthorshipChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="grid-2" style="gap: 1.5rem;">
+                            <div class="stat-card">
+                                <div class="stat-value" id="stat-sessions">0</div>
+                                <div class="stat-label">Claude Code Sessions</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value" id="stat-data-mb">0 MB</div>
+                                <div class="stat-label">Transcript Data</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value" id="stat-commits-per-session">0</div>
+                                <div class="stat-label">Commits per Session</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value" id="stat-agent-spawns">0</div>
+                                <div class="stat-label">Agent Delegations</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top: 2rem;">
+                    <p style="text-align: center; font-size: 1.1rem; color: var(--text-muted); line-height: 1.8;">
+                        Claude Code acts as a <strong style="color: var(--primary);">force multiplier</strong> — enabling a small team to ship at the velocity of a larger engineering org.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Section 3: The AI Engineering Stack -->
+            <section id="ai-stack" class="section">
+                <h2 class="section-title">The AI Engineering Stack</h2>
+                <p class="section-subtitle">Claude Code orchestration platform powering conflictiQ development</p>
+
+                <div class="stack-stats-grid">
+                    <div class="stack-stat-card" style="border-top: 3px solid var(--primary);">
+                        <div class="stack-stat-value" id="stat-agents" style="color: var(--primary);">0</div>
+                        <div class="stack-stat-label">Custom Agents</div>
+                    </div>
+                    <div class="stack-stat-card" style="border-top: 3px solid var(--accent);">
+                        <div class="stack-stat-value" id="stat-skills" style="color: var(--accent);">0</div>
+                        <div class="stack-stat-label">Skills (Commands)</div>
+                    </div>
+                    <div class="stack-stat-card" style="border-top: 3px solid var(--green);">
+                        <div class="stack-stat-value" id="stat-hooks" style="color: var(--green);">0</div>
+                        <div class="stack-stat-label">Automation Hooks</div>
+                    </div>
+                    <div class="stack-stat-card" style="border-top: 3px solid var(--amber);">
+                        <div class="stack-stat-value" id="stat-plugins" style="color: var(--amber);">0</div>
+                        <div class="stack-stat-label">Plugins Enabled</div>
+                    </div>
+                    <div class="stack-stat-card" style="border-top: 3px solid var(--purple);">
+                        <div class="stack-stat-value" id="stat-plans" style="color: var(--purple);">0</div>
+                        <div class="stack-stat-label">Architecture Plans</div>
+                    </div>
+                    <div class="stack-stat-card" style="border-top: 3px solid var(--red);">
+                        <div class="stack-stat-value" id="stat-workflows" style="color: var(--red);">0</div>
+                        <div class="stack-stat-label">CI/CD Workflows</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 4: Velocity Acceleration -->
+            <section id="velocity" class="section">
+                <h2 class="section-title">Velocity Acceleration</h2>
+                <p class="section-subtitle">Commits and PRs over time</p>
+
+                <div class="card">
+                    <h3 style="text-align: center; margin-bottom: 2rem; color: var(--text-muted);">Monthly Commits & PRs</h3>
+                    <div class="chart-container large">
+                        <canvas id="velocityChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="callout-grid">
+                    <div class="callout-card">
+                        <div class="callout-value" id="stat-active-days">0</div>
+                        <div class="callout-label">Active Coding Days</div>
+                    </div>
+                    <div class="callout-card">
+                        <div class="callout-value" id="stat-net-lines">0</div>
+                        <div class="callout-label">Net Lines of Code</div>
+                    </div>
+                    <div class="callout-card">
+                        <div class="callout-value" id="stat-calendar-span">0</div>
+                        <div class="callout-label">Calendar Days</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 5: Codebase -->
+            <section id="codebase" class="section">
+                <h2 class="section-title">Codebase Composition</h2>
+                <p class="section-subtitle">Lines of code by language and test coverage</p>
+
+                <div class="kpi-grid" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));">
+                    <div class="card kpi-card" style="border-top: 3px solid var(--primary);">
+                        <div class="kpi-value" id="stat-python-loc" style="font-size: 2.2rem; color: var(--primary);">0</div>
+                        <div class="kpi-label" style="font-size: 0.8rem;">Python LOC</div>
+                    </div>
+                    <div class="card kpi-card" style="border-top: 3px solid var(--accent);">
+                        <div class="kpi-value" id="stat-typescript-loc" style="font-size: 2.2rem; color: var(--accent);">0</div>
+                        <div class="kpi-label" style="font-size: 0.8rem;">TypeScript LOC</div>
+                    </div>
+                    <div class="card kpi-card" style="border-top: 3px solid var(--amber);">
+                        <div class="kpi-value" id="stat-javascript-loc" style="font-size: 2.2rem; color: var(--amber);">0</div>
+                        <div class="kpi-label" style="font-size: 0.8rem;">JavaScript LOC</div>
+                    </div>
+                    <div class="card kpi-card" style="border-top: 3px solid var(--green);">
+                        <div class="kpi-value" id="stat-total-loc" style="font-size: 2.2rem; color: var(--green);">0</div>
+                        <div class="kpi-label" style="font-size: 0.8rem;">Total LOC</div>
+                    </div>
+                    <div class="card kpi-card" style="border-top: 3px solid var(--purple);">
+                        <div class="kpi-value" id="stat-total-tests" style="font-size: 2.2rem; color: var(--purple);">0</div>
+                        <div class="kpi-label" style="font-size: 0.8rem;">Total Tests</div>
+                        <div id="stat-tests-detail" style="color: var(--text-muted); font-size: 0.75rem; margin-top: 0.25rem;"></div>
+                    </div>
+                </div>
+
+                <div class="grid-2">
+                    <div class="card">
+                        <h3 style="text-align: center; margin-bottom: 2rem; color: var(--text-muted);">LOC by Language</h3>
+                        <div class="chart-container small">
+                            <canvas id="languageDistributionChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h3 style="text-align: center; margin-bottom: 2rem; color: var(--text-muted);">Test Distribution</h3>
+                        <div class="chart-container small">
+                            <canvas id="testDistributionChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 6: Session Autonomy -->
+            <section id="autonomy" class="section">
+                <h2 class="section-title">Session Autonomy</h2>
+                <p class="section-subtitle">How independent is the AI? — measuring human vs AI contribution</p>
+
+                <div class="kpi-grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));">
+                    <div class="card" style="border: 2px solid var(--primary); text-align: center; padding: 1.5rem;">
+                        <div style="font-size: 2.5rem; font-weight: 800; color: var(--primary);" id="stat-ai-messages">0</div>
+                        <div style="font-size: 1rem; font-weight: 700; color: var(--text);">AI Messages</div>
+                    </div>
+                    <div class="card" style="border: 2px solid var(--accent); text-align: center; padding: 1.5rem;">
+                        <div style="font-size: 2.5rem; font-weight: 800; color: var(--accent);" id="stat-human-messages">0</div>
+                        <div style="font-size: 1rem; font-weight: 700; color: var(--text);">Human Messages</div>
+                    </div>
+                    <div class="card" style="border: 2px solid var(--green); text-align: center; padding: 1.5rem;">
+                        <div style="font-size: 2.5rem; font-weight: 800; color: var(--green);" id="stat-tool-uses">0</div>
+                        <div style="font-size: 1rem; font-weight: 700; color: var(--text);">Tool Operations</div>
+                    </div>
+                    <div class="card" style="border: 2px solid var(--amber); text-align: center; padding: 1.5rem;">
+                        <div style="font-size: 2.5rem; font-weight: 800; color: var(--amber);" id="stat-skill-invocations">0</div>
+                        <div style="font-size: 1rem; font-weight: 700; color: var(--text);">Skill Invocations</div>
+                    </div>
+                </div>
+
+                <div class="card insight-card" style="border-left-color: var(--purple); margin-top: 2rem;">
+                    <div class="insight-text" style="font-size: 1rem;">
+                        The founders provide high-level direction and Claude Code orchestrates entire implementation cycles autonomously.
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 7: Integrations -->
+            <section id="integrations" class="section">
+                <h2 class="section-title">Production Integrations</h2>
+                <p class="section-subtitle">The technology stack powering conflictiQ</p>
+
+                <div class="grid-3" style="gap: 1rem;">
+                    <div class="card" style="border-left: 3px solid var(--primary); padding: 1rem;">
+                        <div style="font-weight: 700; color: var(--primary);">Anthropic (Claude)</div>
+                        <div style="color: var(--text-muted); font-size: 0.85rem;">AI Fact-Checking Engine</div>
+                    </div>
+                    <div class="card" style="border-left: 3px solid var(--accent); padding: 1rem;">
+                        <div style="font-weight: 700; color: var(--accent);">Telegram Bot API</div>
+                        <div style="color: var(--text-muted); font-size: 0.85rem;">Messaging Platform</div>
+                    </div>
+                    <div class="card" style="border-left: 3px solid var(--green); padding: 1rem;">
+                        <div style="font-weight: 700; color: var(--green);">Railway</div>
+                        <div style="color: var(--text-muted); font-size: 0.85rem;">Cloud Deployment</div>
+                    </div>
+                    <div class="card" style="border-left: 3px solid var(--amber); padding: 1rem;">
+                        <div style="font-weight: 700; color: var(--amber);">GitHub Actions</div>
+                        <div style="color: var(--text-muted); font-size: 0.85rem;">CI/CD</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 8: Key Takeaways -->
+            <section id="takeaways" class="section">
+                <h2 class="section-title">Key Takeaways</h2>
+                <p class="section-subtitle">What these metrics reveal about AI-native development</p>
+
+                <div class="card insight-card" style="border-left-color: var(--primary);">
+                    <div class="insight-title">AI-Native Development</div>
+                    <div class="insight-text">
+                        Claude Code as the primary development partner, co-authoring the majority of commits across all sessions.
+                    </div>
+                </div>
+
+                <div class="card insight-card cyan">
+                    <div class="insight-title">Rapid Prototyping</div>
+                    <div class="insight-text">
+                        From idea to deployed fact-check bot — AI-augmented development enables shipping at startup speed.
+                    </div>
+                </div>
+
+                <div class="card insight-card green">
+                    <div class="insight-title">Multi-Platform Reach</div>
+                    <div class="insight-text">
+                        Built for WhatsApp and Telegram from day one — reaching users where misinformation spreads fastest.
+                    </div>
+                </div>
+
+                <div class="card insight-card amber">
+                    <div class="insight-title">Anthropic-Powered Intelligence</div>
+                    <div class="insight-text">
+                        Claude API provides the fact-checking reasoning engine, while Claude Code provides the development velocity.
+                    </div>
+                </div>
+            </section>
+
+            <!-- Footer -->
+            <footer class="footer">
+                <p id="footer-summary"><strong>conflictiQ</strong> | 0 commits | 0 PRs | 0 lines | 0% AI co-authored | Feb 2026+</p>
+                <p id="footer-updated" style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem; opacity: 0; transition: opacity 0.5s;"></p>
+            </footer>
+        </main>
+    </div>
+
+    <script>
+        // Chart.js default settings
+        Chart.defaults.color = '#CBD5E1';
+        Chart.defaults.borderColor = '#1E293B';
+        Chart.defaults.font.family = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif';
+
+        // Co-Authorship Doughnut Chart
+        let coAuthorCenterText = '0%';
+
+        const coAuthorshipCtx = document.getElementById('coAuthorshipChart').getContext('2d');
+        const coAuthorshipChart = new Chart(coAuthorshipCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Claude Co-Authored', 'Manual'],
+                datasets: [{
+                    data: [0, 100],
+                    backgroundColor: ['#6366F1', '#334155'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            padding: 20,
+                            font: { size: 14 }
+                        }
+                    },
+                    tooltip: {
+                        bodyFont: { size: 14 },
+                        titleFont: { size: 14 },
+                        callbacks: {
+                            label: function(context) {
+                                return context.label + ': ' + context.parsed + '%';
+                            }
+                        }
+                    }
+                },
+                cutout: '70%'
+            },
+            plugins: [{
+                id: 'centerText',
+                beforeDraw: function(chart) {
+                    const ctx = chart.ctx;
+                    ctx.restore();
+                    const fontSize = 48;
+                    ctx.font = 'bold ' + fontSize + 'px sans-serif';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillStyle = '#6366F1';
+                    const text = coAuthorCenterText;
+                    const textX = Math.round((chart.width - ctx.measureText(text).width) / 2);
+                    const textY = chart.height / 2;
+                    ctx.fillText(text, textX, textY);
+                    ctx.save();
+                }
+            }]
+        });
+
+        // Velocity Chart
+        const velocityCtx = document.getElementById('velocityChart').getContext('2d');
+        const velocityChart = new Chart(velocityCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Feb 2026'],
+                datasets: [{
+                    label: 'Commits',
+                    data: [0],
+                    backgroundColor: ['#6366F1'],
+                    borderColor: ['#6366F1'],
+                    borderWidth: 2
+                }, {
+                    label: 'PRs',
+                    data: [0],
+                    backgroundColor: ['#06B6D4'],
+                    borderColor: ['#06B6D4'],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            padding: 20,
+                            font: { size: 14 }
+                        }
+                    },
+                    tooltip: {
+                        bodyFont: { size: 14 },
+                        titleFont: { size: 14 }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: '#1E293B' }
+                    },
+                    x: {
+                        grid: { display: false }
+                    }
+                },
+                barPercentage: 0.8,
+                categoryPercentage: 0.9
+            }
+        });
+
+        // Language Distribution Chart
+        const langDistCtx = document.getElementById('languageDistributionChart').getContext('2d');
+        const languageChart = new Chart(langDistCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Python', 'TypeScript', 'JavaScript'],
+                datasets: [{
+                    label: 'Lines of Code',
+                    data: [0, 0, 0],
+                    backgroundColor: ['#6366F1', '#06B6D4', '#F59E0B'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        bodyFont: { size: 14 },
+                        titleFont: { size: 14 }
+                    }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        grid: { color: '#1E293B' },
+                        ticks: {
+                            callback: function(value) {
+                                return value >= 1000 ? (value / 1000).toFixed(0) + 'K' : value;
+                            }
+                        }
+                    },
+                    y: {
+                        grid: { display: false }
+                    }
+                },
+                barPercentage: 0.8,
+                categoryPercentage: 0.9
+            }
+        });
+
+        // Test Distribution Chart
+        const testDistCtx = document.getElementById('testDistributionChart').getContext('2d');
+        const testChart = new Chart(testDistCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Python Tests', 'JS/TS Tests'],
+                datasets: [{
+                    data: [0, 0],
+                    backgroundColor: ['#6366F1', '#06B6D4'],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            padding: 20,
+                            font: { size: 14 }
+                        }
+                    },
+                    tooltip: {
+                        bodyFont: { size: 14 },
+                        titleFont: { size: 14 }
+                    }
+                }
+            }
+        });
+
+        // Smooth scroll and active nav update
+        const sections = document.querySelectorAll('.section');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        const observerOptions = {
+            root: null,
+            rootMargin: '-20% 0px -70% 0px',
+            threshold: 0
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const currentId = entry.target.getAttribute('id');
+                    navLinks.forEach(link => {
+                        link.classList.remove('active');
+                        if (link.getAttribute('href') === `#${currentId}`) {
+                            link.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }, observerOptions);
+
+        sections.forEach(section => observer.observe(section));
+
+        // Smooth scroll on nav click
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href').substring(1);
+                const targetSection = document.getElementById(targetId);
+                targetSection.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // =====================================================================
+        // Dynamic Metrics Loading
+        // =====================================================================
+
+        // Helper: format number with commas
+        function fmt(n) { return n.toLocaleString(); }
+        function fmtK(n) { return n >= 1000 ? Math.round(n / 1000) + 'K' : n; }
+
+        // Helper: set text and apply pulse if value changed
+        function setMetric(id, newText) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            const old = el.textContent.trim();
+            const updated = String(newText).trim();
+            if (old !== updated) {
+                el.textContent = updated;
+                el.classList.add('metric-updated');
+                const card = el.closest('.card, .stat-card, .stack-stat-card, .kpi-card');
+                if (card) card.classList.add('metric-updated-card');
+                setTimeout(() => {
+                    el.classList.remove('metric-updated');
+                    if (card) card.classList.remove('metric-updated-card');
+                }, 2600);
+            }
+        }
+
+        // Helper: how fresh is the data?
+        function timeAgo(isoStr) {
+            const diff = Date.now() - new Date(isoStr).getTime();
+            const mins = Math.floor(diff / 60000);
+            if (mins < 1) return 'just now';
+            if (mins < 60) return mins + 'm ago';
+            const hrs = Math.floor(mins / 60);
+            if (hrs < 24) return hrs + 'h ago';
+            const days = Math.floor(hrs / 24);
+            return days + 'd ago';
+        }
+
+        function isRecent(isoStr, thresholdHours) {
+            return (Date.now() - new Date(isoStr).getTime()) < thresholdHours * 3600000;
+        }
+
+        async function loadMetrics() {
+            try {
+                const res = await fetch('metrics.json?_=' + Date.now());
+                if (!res.ok) return;
+                const d = await res.json();
+
+                const { git, claude_code: cc, infrastructure: infra, app } = d;
+
+                // --- Hero stats ---
+                const aiPct = git.total_commits > 0
+                    ? Math.round(git.claude_coauthored / git.total_commits * 100) : 0;
+                setMetric('stat-commits', fmt(git.total_commits));
+                setMetric('stat-prs', fmt(git.prs_merged));
+                setMetric('stat-lines', fmtK(git.lines_inserted));
+                setMetric('stat-ai-pct', aiPct + '%');
+
+                // --- Claude Code stats ---
+                setMetric('stat-sessions', fmt(cc.sessions));
+                setMetric('stat-data-mb', fmt(Math.round(cc.session_data_mb)) + ' MB');
+                const cps = cc.sessions > 0
+                    ? (git.total_commits / cc.sessions).toFixed(1) : '0';
+                setMetric('stat-commits-per-session', '~' + cps);
+                setMetric('stat-agent-spawns', fmt(cc.agent_spawns));
+
+                // --- AI Stack stats ---
+                setMetric('stat-agents', fmt(infra.agents));
+                setMetric('stat-skills', fmt(infra.skills));
+                setMetric('stat-hooks', fmt(infra.hooks));
+                setMetric('stat-plugins', fmt(infra.plugins));
+                setMetric('stat-plans', fmt(infra.plans));
+                setMetric('stat-workflows', fmt(infra.workflows));
+
+                // --- Velocity callouts ---
+                setMetric('stat-active-days', fmt(git.active_days));
+                setMetric('stat-net-lines', fmtK(git.net_lines));
+                setMetric('stat-calendar-span', fmt(git.calendar_span));
+
+                // --- Codebase stats ---
+                setMetric('stat-python-loc', fmtK(app.python_loc));
+                setMetric('stat-typescript-loc', fmtK(app.typescript_loc));
+                setMetric('stat-javascript-loc', fmtK(app.javascript_loc));
+                const totalLoc = app.python_loc + app.typescript_loc + app.javascript_loc;
+                setMetric('stat-total-loc', fmtK(totalLoc));
+
+                const totalTests = app.python_tests + app.js_tests;
+                setMetric('stat-total-tests', fmt(totalTests));
+                const testDetail = document.getElementById('stat-tests-detail');
+                if (testDetail) testDetail.textContent = fmt(app.python_tests) + ' Python + ' + fmt(app.js_tests) + ' JS/TS';
+
+                // --- Autonomy stats ---
+                setMetric('stat-ai-messages', fmt(cc.ai_messages));
+                setMetric('stat-human-messages', fmt(cc.human_messages));
+                setMetric('stat-tool-uses', fmt(cc.tool_uses));
+                setMetric('stat-skill-invocations', fmt(cc.skill_invocations));
+
+                // --- Update Co-Authorship Doughnut Chart ---
+                if (typeof coAuthorshipChart !== 'undefined' && aiPct > 0) {
+                    const manualPct = 100 - aiPct;
+                    coAuthorshipChart.data.datasets[0].data = [aiPct, manualPct];
+                    coAuthorCenterText = aiPct + '%';
+                    coAuthorshipChart.update();
+                }
+
+                // --- Update Velocity Bar Chart ---
+                if (typeof velocityChart !== 'undefined' && git.commits_by_month) {
+                    const months = Object.keys(git.commits_by_month).sort();
+                    const commitData = months.map(m => git.commits_by_month[m]);
+                    const prData = months.map(m => (git.prs_by_month || {})[m] || 0);
+                    const labels = months.map(m => {
+                        const [y, mo] = m.split('-');
+                        const dt = new Date(y, parseInt(mo) - 1);
+                        return dt.toLocaleString('en', { month: 'short', year: 'numeric' });
+                    });
+
+                    velocityChart.data.labels = labels;
+                    velocityChart.data.datasets[0].data = commitData;
+                    velocityChart.data.datasets[0].backgroundColor = commitData.map(() => '#6366F1');
+                    velocityChart.data.datasets[0].borderColor = commitData.map(() => '#6366F1');
+                    velocityChart.data.datasets[1].data = prData;
+                    velocityChart.data.datasets[1].backgroundColor = prData.map(() => '#06B6D4');
+                    velocityChart.data.datasets[1].borderColor = prData.map(() => '#06B6D4');
+                    velocityChart.update();
+                }
+
+                // --- Update Language Distribution Chart ---
+                if (typeof languageChart !== 'undefined') {
+                    languageChart.data.datasets[0].data = [app.python_loc, app.typescript_loc, app.javascript_loc];
+                    languageChart.update();
+                }
+
+                // --- Update Test Distribution Chart ---
+                if (typeof testChart !== 'undefined' && totalTests > 0) {
+                    testChart.data.datasets[0].data = [app.python_tests, app.js_tests];
+                    testChart.update();
+                }
+
+                // --- Footer: "Last updated" with live badge ---
+                const footerEl = document.getElementById('footer-updated');
+                if (footerEl && d.collected_at) {
+                    const ago = timeAgo(d.collected_at);
+                    const fresh = isRecent(d.collected_at, 1);
+                    footerEl.innerHTML = fresh
+                        ? '<span class="live-badge"><span class="live-dot"></span>LIVE</span> Updated ' + ago
+                        : 'Last updated: ' + new Date(d.collected_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+                    footerEl.style.opacity = '1';
+                }
+
+                // --- Footer summary line ---
+                const summaryEl = document.getElementById('footer-summary');
+                if (summaryEl) {
+                    const fmtMonth = (iso) => { const [y,m] = iso.split('-'); return new Date(y, m-1).toLocaleString('en', {month:'short',year:'numeric'}); };
+                    summaryEl.innerHTML = '<strong>conflictiQ</strong> | ' + fmt(git.total_commits) + ' commits | ' + fmt(git.prs_merged) + ' PRs | ' + fmtK(git.lines_inserted) + ' lines | ' + aiPct + '% AI co-authored | ' + fmtMonth(d.period.start) + ' \u2013 ' + fmtMonth(d.period.end);
+                }
+
+            } catch (e) {
+                // Silent fallback — hardcoded values remain
+                console.debug('[metrics] Failed to load metrics.json:', e.message);
+            }
+        }
+
+        // Load metrics on page load
+        loadMetrics();
+    </script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+{
+  "collected_at": "2026-02-28T00:00:00Z",
+  "period": {
+    "start": "2026-02-01",
+    "end": "2026-02-28"
+  },
+  "git": {
+    "total_commits": 0,
+    "commits_by_month": {},
+    "prs_merged": 0,
+    "prs_by_month": {},
+    "lines_inserted": 0,
+    "lines_deleted": 0,
+    "net_lines": 0,
+    "active_days": 0,
+    "calendar_span": 0,
+    "claude_coauthored": 0
+  },
+  "claude_code": {
+    "sessions": 0,
+    "session_data_mb": 0,
+    "agent_spawns": 0,
+    "skill_invocations": 0,
+    "human_messages": 0,
+    "ai_messages": 0,
+    "tool_uses": 0
+  },
+  "infrastructure": {
+    "agents": 0,
+    "skills": 0,
+    "hooks": 0,
+    "plugins": 0,
+    "plans": 0,
+    "workflows": 0
+  },
+  "app": {
+    "python_loc": 0,
+    "typescript_loc": 0,
+    "javascript_loc": 0,
+    "python_tests": 0,
+    "js_tests": 0
+  }
+}
