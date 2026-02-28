@@ -257,44 +257,29 @@ PYTHON_TESTS=0
 JS_TESTS=0
 
 if should_collect app; then
+  # Safe LOC counter: handles zero files gracefully
+  # Uses awk to sum only numeric first fields, skipping wc's "total" lines
+  count_loc() {
+    local result
+    result=$(find "$@" 2>/dev/null | xargs wc -l 2>/dev/null | awk '$2!="total"{s+=$1} END{print s+0}')
+    echo "${result:-0}"
+  }
+
   # Python LOC (all *.py files, excluding venv/node_modules/__pycache__)
-  PYTHON_LOC=$(find "$REPO_ROOT" \
+  PYTHON_LOC=$(count_loc "$REPO_ROOT" \
     -name "*.py" \
     -not -path "*/venv/*" -not -path "*/.venv/*" \
-    -not -path "*/node_modules/*" -not -path "*/__pycache__/*" \
-    2>/dev/null | xargs wc -l 2>/dev/null | tail -1 | awk '{print $1}' || echo 0)
-  # If only one file, tail -1 IS that file (no "total" line)
-  if [ "$PYTHON_LOC" -eq 0 ] 2>/dev/null; then
-    PYTHON_LOC=$(find "$REPO_ROOT" \
-      -name "*.py" \
-      -not -path "*/venv/*" -not -path "*/.venv/*" \
-      -not -path "*/node_modules/*" -not -path "*/__pycache__/*" \
-      2>/dev/null | xargs wc -l 2>/dev/null | awk '{s+=$1} END{print s+0}' || echo 0)
-  fi
+    -not -path "*/node_modules/*" -not -path "*/__pycache__/*")
 
   # TypeScript LOC (all *.ts + *.tsx, excluding node_modules)
-  TYPESCRIPT_LOC=$(find "$REPO_ROOT" \
+  TYPESCRIPT_LOC=$(count_loc "$REPO_ROOT" \
     \( -name "*.ts" -o -name "*.tsx" \) \
-    -not -path "*/node_modules/*" \
-    2>/dev/null | xargs wc -l 2>/dev/null | tail -1 | awk '{print $1}' || echo 0)
-  if [ "$TYPESCRIPT_LOC" -eq 0 ] 2>/dev/null; then
-    TYPESCRIPT_LOC=$(find "$REPO_ROOT" \
-      \( -name "*.ts" -o -name "*.tsx" \) \
-      -not -path "*/node_modules/*" \
-      2>/dev/null | xargs wc -l 2>/dev/null | awk '{s+=$1} END{print s+0}' || echo 0)
-  fi
+    -not -path "*/node_modules/*")
 
   # JavaScript LOC (all *.js + *.jsx, excluding node_modules)
-  JAVASCRIPT_LOC=$(find "$REPO_ROOT" \
+  JAVASCRIPT_LOC=$(count_loc "$REPO_ROOT" \
     \( -name "*.js" -o -name "*.jsx" \) \
-    -not -path "*/node_modules/*" \
-    2>/dev/null | xargs wc -l 2>/dev/null | tail -1 | awk '{print $1}' || echo 0)
-  if [ "$JAVASCRIPT_LOC" -eq 0 ] 2>/dev/null; then
-    JAVASCRIPT_LOC=$(find "$REPO_ROOT" \
-      \( -name "*.js" -o -name "*.jsx" \) \
-      -not -path "*/node_modules/*" \
-      2>/dev/null | xargs wc -l 2>/dev/null | awk '{s+=$1} END{print s+0}' || echo 0)
-  fi
+    -not -path "*/node_modules/*")
 
   # Python tests — count test functions in test_*.py files
   PYTHON_TEST_FILES=()
