@@ -1,32 +1,34 @@
 {
-  "collected_at": "2026-03-01T18:49:23Z",
+  "collected_at": "2026-03-01T19:07:13Z",
   "period": {
     "start": "2026-02-01",
     "end": "2026-03-01"
   },
   "git": {
-    "total_commits": 19,
+    "total_commits": 3,
     "commits_by_month": {
-      "2026-02": 15,
-      "2026-03": 4
+      "2026-02": 1,
+      "2026-03": 2
     },
-    "prs_merged": 0,
-    "prs_by_month": {},
-    "lines_inserted": 11593,
-    "lines_deleted": 607,
-    "net_lines": 10986,
+    "prs_merged": 1,
+    "prs_by_month": {
+      "2026-03": 1
+    },
+    "lines_inserted": 11120,
+    "lines_deleted": 0,
+    "net_lines": 11120,
     "active_days": 2,
     "calendar_span": 28,
-    "claude_coauthored": 18
+    "claude_coauthored": 2
   },
   "claude_code": {
     "sessions": 9,
     "session_data_mb": 61.8,
     "agent_spawns": 26,
-    "skill_invocations": 38,
-    "human_messages": 2344,
-    "ai_messages": 3309,
-    "tool_uses": 4060
+    "skill_invocations": 39,
+    "human_messages": 2382,
+    "ai_messages": 3359,
+    "tool_uses": 4122
   },
   "infrastructure": {
     "agents": 19,
@@ -34,7 +36,7 @@
     "hooks": 11,
     "plugins": 3,
     "plans": 1,
-    "workflows": 1
+    "workflows": 2
   },
   "app": {
     "python_loc": 10291,
