@@ -1,31 +1,32 @@
 {
-  "collected_at": "2026-03-01T06:00:11Z",
+  "collected_at": "2026-03-01T18:30:22Z",
   "period": {
     "start": "2026-02-01",
-    "end": "2026-02-28"
+    "end": "2026-03-01"
   },
   "git": {
-    "total_commits": 15,
+    "total_commits": 16,
     "commits_by_month": {
-      "2026-02": 15
+      "2026-02": 15,
+      "2026-03": 1
     },
     "prs_merged": 0,
     "prs_by_month": {},
-    "lines_inserted": 7526,
-    "lines_deleted": 358,
-    "net_lines": 7168,
-    "active_days": 1,
-    "calendar_span": 27,
-    "claude_coauthored": 14
+    "lines_inserted": 10150,
+    "lines_deleted": 604,
+    "net_lines": 9546,
+    "active_days": 2,
+    "calendar_span": 28,
+    "claude_coauthored": 15
   },
   "claude_code": {
-    "sessions": 8,
-    "session_data_mb": 58.0,
+    "sessions": 9,
+    "session_data_mb": 59.3,
     "agent_spawns": 23,
-    "skill_invocations": 33,
-    "human_messages": 2083,
-    "ai_messages": 2934,
-    "tool_uses": 3581
+    "skill_invocations": 38,
+    "human_messages": 2259,
+    "ai_messages": 3203,
+    "tool_uses": 3902
   },
   "infrastructure": {
     "agents": 19,
@@ -36,10 +37,10 @@
     "workflows": 1
   },
   "app": {
-    "python_loc": 8511,
+    "python_loc": 8854,
     "typescript_loc": 0,
     "javascript_loc": 1648,
-    "python_tests": 138,
+    "python_tests": 139,
     "js_tests": 0
   }
 }
