@@ -1,34 +1,34 @@
 {
-  "collected_at": "2026-03-01T19:07:13Z",
+  "collected_at": "2026-03-01T19:20:42Z",
   "period": {
     "start": "2026-02-01",
     "end": "2026-03-01"
   },
   "git": {
-    "total_commits": 3,
+    "total_commits": 4,
     "commits_by_month": {
       "2026-02": 1,
+      "2026-03": 3
+    },
+    "prs_merged": 2,
+    "prs_by_month": {
       "2026-03": 2
     },
-    "prs_merged": 1,
-    "prs_by_month": {
-      "2026-03": 1
-    },
-    "lines_inserted": 11120,
-    "lines_deleted": 0,
-    "net_lines": 11120,
+    "lines_inserted": 11123,
+    "lines_deleted": 5,
+    "net_lines": 11118,
     "active_days": 2,
     "calendar_span": 28,
     "claude_coauthored": 2
   },
   "claude_code": {
     "sessions": 9,
-    "session_data_mb": 61.8,
+    "session_data_mb": 62.8,
     "agent_spawns": 26,
     "skill_invocations": 39,
-    "human_messages": 2382,
-    "ai_messages": 3359,
-    "tool_uses": 4122
+    "human_messages": 2432,
+    "ai_messages": 3440,
+    "tool_uses": 4211
   },
   "infrastructure": {
     "agents": 19,
